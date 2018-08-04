@@ -25,7 +25,7 @@ class Player (object):
         else:
             self.angle = math.atan(y/x)
 
-    def move(self, dir):
+    def move(self, dir, data):
         self.x += dir[0]
         self.y += dir[1]
         if self.x<self.r: self.x=self.r

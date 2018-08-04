@@ -5,7 +5,23 @@ from player import *
 import math
 
 ####################################
-# customize these functions
+# Helper Functions
+####################################
+
+def movePlayer(data):
+    dir = [0,0]
+    if data.up:
+        dir[1] -= 5
+    if data.down: 
+        dir[1] += 5
+    if data.left:
+        dir[0] -= 5
+    if data.right:
+        dir[0] += 5
+    data.player.move(dir, data)
+
+####################################
+# Binded Functions
 ####################################
 
 def init(data):
@@ -22,28 +38,29 @@ def mousePressed(event, data):
 
 def keyPressed(event, data):
     if data.dead: return
-    if event.keysym == "Up":
+    if event.keysym == "Up" and not data.up:
         data.up = True
-    elif event.keysym == "Down":
+    elif event.keysym == "Down" and not data.down:
         data.down = True
-    elif event.keysym == "Right":
+    elif event.keysym == "Right" and not data.right:
         data.right = True
-    elif event.keysym == "Left":
+    elif event.keysym == "Left" and not data.left:
         data.left = True
 
 def keyReleased(event, data):
     if data.dead: return
-    if event.keysym == "Up":
+    #print (data.keysym)
+    if event.keysym == "Up" and data.up:
         data.up = False
-    elif event.keysym == "Down":
+    elif event.keysym == "Down" and data.down:
         data.down = False
-    elif event.keysym == "Right":
+    elif event.keysym == "Right" and data.right:
         data.right = False
-    elif event.keysym == "Left":
+    elif event.keysym == "Left" and data.left:
         data.left = False
 
 def timerFired(data):
-    pass
+    movePlayer(data)
 
 def motion(event, data):
     data.player.changeAngle(event, data)
@@ -102,6 +119,8 @@ def run(width=300, height=300):
                             mousePressedWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:
                             keyPressedWrapper(event, canvas, data))
+    root.bind("<KeyRelease>", lambda event:
+                            keyReleasedWrapper(event, canvas, data))
     timerFiredWrapper(canvas, data)
     # and launch the app
     root.mainloop()  # blocks until window is closed
