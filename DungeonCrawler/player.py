@@ -10,7 +10,7 @@ class Player (object):
         self.bag = []
         self.guns = []
         self.equipped = []
-        self.gun = Gun() 
+        self.gun = "pistol"
         self.x = x
         self.y = y
         self.angle = angle
@@ -20,6 +20,7 @@ class Player (object):
     def changeAngle(self, event, data):
         x = self.x - event.x
         y = self.y - event.y
+        if x==0 or y==0: return
         if x>0:
             self.angle = math.atan(y/x)+math.pi
         else:

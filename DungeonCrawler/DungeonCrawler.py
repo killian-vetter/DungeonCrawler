@@ -2,6 +2,7 @@
 
 from tkinter import *
 from player import *
+import guns
 import math
 
 ####################################
@@ -26,6 +27,9 @@ def movePlayer(data):
 
 def init(data):
     data.player = Player("Killian", data.width//2, data.height//2, math.pi)
+    data.myBullets = []
+    data.enemyBullets = []
+    data.enemies = []
     data.up = False
     data.down = False
     data.left = False
@@ -35,6 +39,8 @@ def init(data):
 
 def mousePressed(event, data):
     if data.dead: return
+    if data.player.gun == "pistol":
+        data.myBullets.append(guns.shoot(data.player.x, data.player.y, data.player.angle))
 
 def keyPressed(event, data):
     if data.dead: return
@@ -49,7 +55,6 @@ def keyPressed(event, data):
 
 def keyReleased(event, data):
     if data.dead: return
-    #print (data.keysym)
     if event.keysym == "Up" and data.up:
         data.up = False
     elif event.keysym == "Down" and data.down:
@@ -61,12 +66,16 @@ def keyReleased(event, data):
 
 def timerFired(data):
     movePlayer(data)
+    for bullet in data.myBullets:
+        bullet.move()
 
 def motion(event, data):
     data.player.changeAngle(event, data)
         
 
 def redrawAll(canvas, data):
+    for bullet in data.myBullets:
+        bullet.draw(canvas)
     data.player.draw(canvas)
 
 ####################################
