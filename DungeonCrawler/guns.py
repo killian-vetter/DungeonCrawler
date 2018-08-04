@@ -3,6 +3,7 @@ import math
 def dist(x1,y1,x2,y2):
     return math.sqrt((x1-x2)**2+(y1-y2)**2)
 
+#this is the shoot function of the basic pistol
 def shoot(x, y, angle):
     return Bullet(x, y, 5, angle, "blue", 20, 2)
 

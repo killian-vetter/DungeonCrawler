@@ -10,6 +10,7 @@ def getAngle(x, y, data):
         angle = math.atan(y/x)
     return angle
 
+#this basic type of enemy takes 3 hit from a pistol and follows you and shoots straight at you
 class Enemy (object):
     def __init__ (self, x, y):
         self.x = x
@@ -23,16 +24,18 @@ class Enemy (object):
         self.lifeTime = 0
 
     def shoot(self, data):
-        data.enemyBullets.append(Bullet(self.x, self.y, 20, self.angle, "red", 10, 1))
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle, "red", 5, 1))
 
     def move(self):
         self.x += self.speed*math.cos(self.angle)
         self.y += self.speed*math.sin(self.angle)
 
+    #sets the angle to point at player. Moves toward player.
+    #Shoots at player every 2 seconds
     def onTimerFired(self, data):
         self.lifeTime += 1
         self.angle = getAngle(self.x, self.y, data)
-        if self.lifeTime % 10 == 0:
+        if self.lifeTime % 20 == 0:
             self.shoot(data)
         self.move()
    

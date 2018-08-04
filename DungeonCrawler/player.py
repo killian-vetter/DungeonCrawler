@@ -2,11 +2,12 @@ from guns import *
 from tkinter import *
 import math
 
+#player initially has 3 health 
 class Player (object):
     def __init__(self, name, x, y, angle):
         self.name = name
         self.health = 3
-        self.currHealth = 5
+        self.currHealth = self.health
         self.bag = []
         self.guns = []
         self.equipped = []
@@ -17,6 +18,7 @@ class Player (object):
         self.r = 50
         self.img = PhotoImage(file="Images/player.gif")
 
+    #changes the angle to face in the direction of event
     def changeAngle(self, event, data):
         x = self.x - event.x
         y = self.y - event.y
@@ -34,6 +36,7 @@ class Player (object):
         if self.y<self.r: self.y=self.r
         elif self.y>data.height-self.r: self.y = data.width-self.r
 
+    #the polygon makes a triangle point at cursor
     def draw(self, canvas):
         #creates a triangle pointing in the direction of the mouse
         angle = self.angle

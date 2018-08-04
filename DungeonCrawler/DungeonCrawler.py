@@ -37,6 +37,8 @@ def init(data):
     data.right = False
     data.shooting = False
     data.dead = False
+    data.heart = PhotoImage(file="Images/heart.gif")
+    data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
 
 def mousePressed(event, data):
     if data.dead: return
@@ -78,8 +80,8 @@ def timerFired(data):
     for bullet in data.enemyBullets:
         bullet.move()
         if bullet.collisionWithMe(data.player):
-            data.player.health -= bullet.dmg
-            if data.player.health <= 0:
+            data.player.currHealth -= bullet.dmg
+            if data.player.currHealth <= 0:
                 data.dead = True
                 return
             data.enemyBullets.remove(bullet)
@@ -95,6 +97,13 @@ def motion(event, data):
         
 
 def redrawAll(canvas, data):
+    #should make hearts to show life
+    heartSize = 50
+    for i in range(data.player.health):
+        if i>=data.player.currHealth:
+            canvas.create_image(i*heartSize, 0, anchor=NW, image=data.emptyHeart)
+        else: 
+            canvas.create_image(i*heartSize, 0, anchor=NW, image=data.heart)
     data.player.draw(canvas)
     for bullet in data.myBullets:
         bullet.draw(canvas)
