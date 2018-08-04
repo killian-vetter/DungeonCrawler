@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "DungeonCrawler", "DungeonCrawler\DungeonCrawler.pyproj", "{53997C11-DD4E-473D-B6B8-767C741783B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53997C11-DD4E-473D-B6B8-767C741783B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53997C11-DD4E-473D-B6B8-767C741783B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43DF7559-D249-433C-BB71-D9F18530B5A2}
+	EndGlobalSection
+EndGlobal
