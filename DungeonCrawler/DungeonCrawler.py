@@ -10,20 +10,44 @@ import math
 
 def init(data):
     data.player = Player("Killian", data.width//2, data.height//2, math.pi)
+    data.up = False
+    data.down = False
+    data.left = False
+    data.right = False
+    data.shooting = False
+    data.dead = False
 
 def mousePressed(event, data):
-    # use event.x and event.y
-    pass
+    if data.dead: return
 
 def keyPressed(event, data):
-    # use event.char and event.keysym
-    pass
+    if data.dead: return
+    if event.keysym == "Up":
+        data.up = True
+    elif event.keysym == "Down":
+        data.down = True
+    elif event.keysym == "Right":
+        data.right = True
+    elif event.keysym == "Left":
+        data.left = True
+
+def keyReleased(event, data):
+    if data.dead: return
+    if event.keysym == "Up":
+        data.up = False
+    elif event.keysym == "Down":
+        data.down = False
+    elif event.keysym == "Right":
+        data.right = False
+    elif event.keysym == "Left":
+        data.left = False
 
 def timerFired(data):
     pass
 
 def motion(event, data):
-    data.player.angle = math.atan((player.x - event.x)/(player.y-event.y))
+    data.player.changeAngle(event, data)
+        
 
 def redrawAll(canvas, data):
     data.player.draw(canvas)
@@ -48,6 +72,10 @@ def run(width=300, height=300):
         keyPressed(event, data)
         redrawAllWrapper(canvas, data)
 
+    def keyReleasedWrapper(event, canvas, data):
+        keyReleased(event, data)
+        redrawAllWrapper(canvas, data)
+
     def timerFiredWrapper(canvas, data):
         timerFired(data)
         redrawAllWrapper(canvas, data)
@@ -69,6 +97,7 @@ def run(width=300, height=300):
     canvas.configure(bd=0, highlightthickness=0)
     canvas.pack()
     # set up events
+    root.bind('<Motion>', motionWrapper)
     root.bind("<Button-1>", lambda event:
                             mousePressedWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:

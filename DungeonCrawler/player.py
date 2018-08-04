@@ -16,11 +16,27 @@ class Player (object):
         self.angle = angle
         self.r = 50
 
+    def changeAngle(self, event, data):
+        x = self.x - event.x
+        y = self.y - event.y
+        if x>0:
+            self.angle = math.atan(y/x)+math.pi
+        else:
+            self.angle = math.atan(y/x)
+
+    def move(self, dir):
+        self.x += dir[0]
+        self.y += dir[1]
+        if self.x<self.r: self.x=self.r
+        elif self.x>data.width-self.r: self.x = data.width-self.r
+        if self.y<self.r: self.y=self.r
+        elif self.y>data.height-self.r: self.y = data.width-self.r
+
     def draw(self, canvas):
         #creates a triangle pointing in the direction of the mouse
         angle = self.angle
-        canvas.create_polygon((self.x + self.r*math.cos(angle+math.pi/36), self.y + self.r*math.sin(angle+math.pi/36)),
-                             (self.x + self.r*math.cos(angle-math.pi/36), self.y + self.r*math.sin(angle-math.pi/36)),
+        canvas.create_polygon((self.x + self.r*math.cos(angle+math.pi/30), self.y + self.r*math.sin(angle+math.pi/30)),
+                             (self.x + self.r*math.cos(angle-math.pi/30), self.y + self.r*math.sin(angle-math.pi/30)),
                              (self.x + (self.r+20)*math.cos(angle), self.y + (self.r+20)*math.sin(angle)))
         img = PhotoImage(file="Images/player.gif")      
-        canvas.create_image(self.x-self.r,self.y-self.r, anchor=NW, image=img) 
+        canvas.create_image(self.x-self.r,self.y-self.r, anchor=NW, image=img)
