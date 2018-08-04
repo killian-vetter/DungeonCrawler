@@ -69,28 +69,44 @@ def keyReleased(event, data):
         data.left = False
 
 def timerFired(data):
+    if data.dead: return
     movePlayer(data)
     for bullet in data.myBullets:
         bullet.move()
-        if bullet.collisionWithWall(data) or bullet.collisionWithBulletM(data):
+        if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
             data.myBullets.remove(bullet)
     for bullet in data.enemyBullets:
         bullet.move()
-        if bullet.collisionWithWall(data) or bullet.collisionWithBulletE(data):
+        if bullet.collisionWithMe(data.player):
+            data.player.health -= bullet.dmg
+            if data.player.health <= 0:
+                data.dead = True
+                return
+            data.enemyBullets.remove(bullet)
+        if bullet.collisionWithWall(data):
             data.enemyBullets.remove(bullet)
 
+    for enemy in data.enemies:
+        enemy.onTimerFired(data)
+
 def motion(event, data):
+    if data.dead: return
     data.player.changeAngle(event, data)
         
 
 def redrawAll(canvas, data):
+    data.player.draw(canvas)
     for bullet in data.myBullets:
         bullet.draw(canvas)
     for bullet in data.enemyBullets:
         bullet.draw(canvas)
     for enemy in data.enemies:
         enemy.draw(canvas)
-    data.player.draw(canvas)
+    if data.dead:
+        canvas.create_rectangle(data.width//2-200, data.height//2-50,
+                               data.width//2+200, data.height//2+50, fill = "black")
+        canvas.create_text(data.width//2, data.height//2, text = "You Died",
+                          font = "Impact 30", fill = "red")
 
 ####################################
 # use the run function as-is

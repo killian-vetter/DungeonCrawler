@@ -4,38 +4,35 @@ def dist(x1,y1,x2,y2):
     return math.sqrt((x1-x2)**2+(y1-y2)**2)
 
 def shoot(x, y, angle):
-    return Bullet(x, y, 5, angle, "red", 20)
+    return Bullet(x, y, 5, angle, "blue", 20, 2)
 
 class Bullet(object):
-    def __init__(self, x, y, r, angle, color, speed):
+    def __init__(self, x, y, r, angle, color, speed, dmg):
         self.x = x
         self.y = y
         self.r = r
         self.angle = angle
         self.color = color
         self.speed = speed
+        self.dmg = dmg
 
     def collisionWithWall(self, data):
         return ((not data.width-self.r>self.x>self.r) or 
                 (not data.height-self.r>self.y>self.r))
 
-    def collisionWithBulletM(self, data): 
+    def collisionWithBullet(self, data): 
         for bullet in data.enemyBullets:
             if dist(bullet.x, bullet.y, self.x, self.y)<=self.r+bullet.r:
+                data.enemyBullets.remove(bullet)
                 return True
         return False
 
-    def collisionWithBulletE(self, data): 
-        for bullet in data.myBullets:
-            if dist(bullet.x, bullet.y, self.x, self.y)<=self.r+bullet.r:
-                return True
-        return False
-
+    #I don't know how to do this
     def collisionWithEnemy(self, data):
-        pass
+        return False
 
     def collisionWithMe(self, player):
-        pass
+        return dist(self.x, self.y, player.x, player.y) <= self.r + player.r
 
     def move(self):
         self.x += self.speed*math.cos(self.angle)
