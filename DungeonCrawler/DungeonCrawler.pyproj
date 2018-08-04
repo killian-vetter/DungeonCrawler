@@ -21,6 +21,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\bullet.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Classes\enemy.py">
       <SubType>Code</SubType>
     </Compile>
