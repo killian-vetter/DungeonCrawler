@@ -6,7 +6,7 @@ class Player (object):
     def __init__(self, name, x, y, angle):
         self.name = name
         self.health = 3
-        self.currHealth = 3
+        self.currHealth = 5
         self.bag = []
         self.guns = []
         self.equipped = []
@@ -15,7 +15,7 @@ class Player (object):
         self.y = y
         self.angle = angle
         self.r = 50
-        self.img = PhotoImage(file="player.gif")
+        self.img = PhotoImage(file="Images/player.gif")
 
     def changeAngle(self, event, data):
         x = self.x - event.x

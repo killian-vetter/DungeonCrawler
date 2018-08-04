@@ -2,6 +2,7 @@
 
 from tkinter import *
 from player import *
+from enemy import *
 import guns
 import math
 
@@ -29,7 +30,7 @@ def init(data):
     data.player = Player("Killian", data.width//2, data.height//2, math.pi)
     data.myBullets = []
     data.enemyBullets = []
-    data.enemies = []
+    data.enemies = [Enemy(data.width//4, data.height//2)]
     data.up = False
     data.down = False
     data.left = False
@@ -39,8 +40,11 @@ def init(data):
 
 def mousePressed(event, data):
     if data.dead: return
+    r = data.player.r
     if data.player.gun == "pistol":
-        data.myBullets.append(guns.shoot(data.player.x, data.player.y, data.player.angle))
+        data.myBullets.append(guns.shoot(data.player.x+r*math.cos(data.player.angle), 
+                                         data.player.y+r*math.sin(data.player.angle), 
+                                         data.player.angle))
 
 def keyPressed(event, data):
     if data.dead: return
@@ -68,6 +72,12 @@ def timerFired(data):
     movePlayer(data)
     for bullet in data.myBullets:
         bullet.move()
+        if bullet.collisionWithWall(data) or bullet.collisionWithBulletM(data):
+            data.myBullets.remove(bullet)
+    for bullet in data.enemyBullets:
+        bullet.move()
+        if bullet.collisionWithWall(data) or bullet.collisionWithBulletE(data):
+            data.enemyBullets.remove(bullet)
 
 def motion(event, data):
     data.player.changeAngle(event, data)
@@ -76,6 +86,10 @@ def motion(event, data):
 def redrawAll(canvas, data):
     for bullet in data.myBullets:
         bullet.draw(canvas)
+    for bullet in data.enemyBullets:
+        bullet.draw(canvas)
+    for enemy in data.enemies:
+        enemy.draw(canvas)
     data.player.draw(canvas)
 
 ####################################
