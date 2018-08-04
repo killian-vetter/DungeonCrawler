@@ -21,7 +21,31 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\enemy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\objects.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\player.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DungeonCrawler.py" />
+    <Compile Include="Screens\game.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Screens\levelEditor.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Screens\menu.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SaveFiles\" />
+    <Folder Include="Screens\" />
+    <Folder Include="Classes\" />
+    <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
