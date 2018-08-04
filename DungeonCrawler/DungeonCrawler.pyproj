@@ -24,6 +24,12 @@
     <Compile Include="Classes\enemy.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\guns.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\items.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Classes\objects.py">
       <SubType>Code</SubType>
     </Compile>
