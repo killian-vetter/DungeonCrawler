@@ -1,5 +1,6 @@
 from guns import *
 from tkinter import *
+import random
 
 def getAngle(x, y, data):
     x = x - data.player.x
@@ -21,7 +22,7 @@ class Enemy (object):
         self.w = 75
         self.img = PhotoImage(file="Images/enemy.gif")
         self.angle = 0
-        self.lifeTime = 0
+        self.lifeTime = random.randint(0,50)
 
     def shoot(self, data):
         data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle, "red", 10, 1))
@@ -41,3 +42,15 @@ class Enemy (object):
    
     def draw(self, canvas):
         canvas.create_image(self.x, self.y, anchor=NW, image=self.img)
+
+class MachineGunEnemy (Enemy):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        #maybe change pic
+
+    def onTimerFired(self, data):
+        self.lifeTime += 1
+        self.angle = getAngle(self.x, self.y, data)
+        if self.lifeTime % 8 == 0:
+            self.shoot(data)
+        self.move()
