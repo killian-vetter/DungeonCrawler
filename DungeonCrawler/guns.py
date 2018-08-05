@@ -30,7 +30,7 @@ class Bullet(object):
 
     #I don't know how to do this
     def collisionWithEnemy(self, data):
-        return False
+         pass
 
     def collisionWithMe(self, player):
         return dist(self.x, self.y, player.x, player.y) <= self.r + player.r
