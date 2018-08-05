@@ -14,7 +14,7 @@ def init(data):
     data.player = Player("Killian", data.width//2, data.height//2, math.pi)
     data.myBullets = []
     data.enemyBullets = []
-    data.enemies = [Enemy(data.width//4, data.height//2), Enemy(10, data.height*4/5), 
+    data.enemies = [Enemy(data.width//4, data.height//2), Shotgun(data.width*4/5, 10), 
                     MachineGunEnemy(data.width*2/3, data.height*4/5)]
     data.up = False
     data.down = False

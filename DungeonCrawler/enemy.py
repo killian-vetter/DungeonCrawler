@@ -46,7 +46,7 @@ class Enemy (object):
 class MachineGunEnemy (Enemy):
     def __init__(self, x, y):
         super().__init__(x, y)
-        #maybe change pic
+        self.img = PhotoImage(file="Images/machineGun.gif")
 
     def onTimerFired(self, data):
         self.lifeTime += 1
@@ -54,3 +54,13 @@ class MachineGunEnemy (Enemy):
         if self.lifeTime % 8 == 0:
             self.shoot(data)
         self.move()
+
+class Shotgun (Enemy):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.img = PhotoImage(file="Images/shotgun.gif")
+
+    def shoot(self, data):
+        super().shoot(data)
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle+math.pi/18, "red", 10, 1))
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle-math.pi/18, "red", 10, 1))
