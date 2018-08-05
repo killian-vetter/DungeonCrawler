@@ -18,6 +18,7 @@ def init(data):
     data.dead = False
     data.heart = PhotoImage(file="Images/heart.gif")
     data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
+    data.coin = PhotoImage(file = "Images/coin.gif")
 
 def mousePressed(event, data):
     if data.dead: return
@@ -56,7 +57,7 @@ def timerFired(data):
         bullet.move()
         if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
             data.myBullets.remove(bullet)
-        if bullet.collisionWithEnemy(data):
+        elif bullet.collisionWithEnemy(data):
             data.myBullets.remove(bullet)
     for bullet in data.enemyBullets:
         bullet.move()
@@ -84,19 +85,21 @@ def motion(event, data):
 
 def redrawAll(canvas, data):
     #should make hearts to show life
-    heartSize = 50
+    iconSize = 50
     for i in range(data.player.health):
         if i>=data.player.currHealth:
-            canvas.create_image(i*heartSize, 0, anchor=NW, image=data.emptyHeart)
+            canvas.create_image(i*iconSize, 0, anchor=NW, image=data.emptyHeart)
         else: 
-            canvas.create_image(i*heartSize, 0, anchor=NW, image=data.heart)
-    #put coin counter
+            canvas.create_image(i*iconSize, 0, anchor=NW, image=data.heart)
+    #coin counter
+    canvas.create_image(0, iconSize, anchor = NW, image = data.coin)
+    canvas.create_text(iconSize*2,iconSize*1.5, font = "Impact 20", text = str(data.player.gold))
     data.player.draw(canvas)
-    for bullet in data.myBullets:
-        bullet.draw(canvas)
     for enemy in data.enemies:
         enemy.draw(canvas)
     for bullet in data.enemyBullets:
+        bullet.draw(canvas)
+    for bullet in data.myBullets:
         bullet.draw(canvas)
     if data.dead:
         canvas.create_rectangle(data.width//2-200, data.height//2-50,

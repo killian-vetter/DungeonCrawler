@@ -36,7 +36,7 @@ class Bullet(object):
                     or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)):
                     enemy.health -= 1
                     return True
-             elif dist(enemy.x-enemy.r, enemy.y-enemy.r, self.x , self.y) <= enemy.r + self.r:
+             elif dist(enemy.x+enemy.r, enemy.y+enemy.r, self.x , self.y) <= enemy.r + self.r:
                  enemy.health -= 1
                  return True
          return False
