@@ -14,8 +14,9 @@ def init(data):
     data.player = Player("Killian", data.width//2, data.height//2, math.pi)
     data.myBullets = []
     data.enemyBullets = []
-    data.enemies = [Enemy(data.width//4, data.height//2), Shotgun(data.width*4/5, 10), 
-                    MachineGunEnemy(data.width*2/3, data.height*4/5)]
+    #data.enemies = [Enemy(data.width//4, data.height//2), Shotgun(data.width*4/5, 10), 
+    #                MachineGunEnemy(data.width*2/3, data.height*4/5)]
+    data.enemies = [BigEnemy1(data.width//4, data.height//2)]
     data.up = False
     data.down = False
     data.left = False
@@ -93,10 +94,10 @@ def redrawAll(canvas, data):
     data.player.draw(canvas)
     for bullet in data.myBullets:
         bullet.draw(canvas)
-    for bullet in data.enemyBullets:
-        bullet.draw(canvas)
     for enemy in data.enemies:
         enemy.draw(canvas)
+    for bullet in data.enemyBullets:
+        bullet.draw(canvas)
     if data.dead:
         canvas.create_rectangle(data.width//2-200, data.height//2-50,
                                data.width//2+200, data.height//2+50, fill = "black")

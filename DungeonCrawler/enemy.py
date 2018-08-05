@@ -1,6 +1,7 @@
 from guns import *
 from tkinter import *
 import random
+import math
 
 def getAngle(x, y, data):
     x = x - data.player.x
@@ -64,3 +65,22 @@ class Shotgun (Enemy):
         super().shoot(data)
         data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle+math.pi/18, "red", 10, 1))
         data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle-math.pi/18, "red", 10, 1))
+
+class BigEnemy1 (Enemy):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.helth = 10
+        self.r = 100
+        self.w = 0
+        self.h = 0
+        self.speed = 0
+        self.angle = (random.random())*math.pi/7
+        self.img = PhotoImage(file="Images/bigEnemy1.gif")
+
+    def onTimerFired(self, data):
+        x = self.x+self.r
+        y = self.y+self.r
+        self.angle += math.pi/5
+        data.enemyBullets.append(Bullet(x+self.r*math.cos(self.angle), 
+                                        y+self.r*math.sin(self.angle),
+                                        15, self.angle, "red", 10, 1))
