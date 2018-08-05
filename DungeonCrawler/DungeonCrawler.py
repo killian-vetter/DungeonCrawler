@@ -7,22 +7,6 @@ import guns
 import math
 
 ####################################
-# Helper Functions
-####################################
-
-def movePlayer(data):
-    dir = [0,0]
-    if data.up:
-        dir[1] -= 5
-    if data.down: 
-        dir[1] += 5
-    if data.left:
-        dir[0] -= 5
-    if data.right:
-        dir[0] += 5
-    data.player.move(dir, data)
-
-####################################
 # Binded Functions
 ####################################
 
@@ -72,7 +56,7 @@ def keyReleased(event, data):
 
 def timerFired(data):
     if data.dead: return
-    movePlayer(data)
+    data.player.move(data)
     for bullet in data.myBullets:
         bullet.move()
         if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
@@ -81,9 +65,10 @@ def timerFired(data):
         bullet.move()
         if bullet.collisionWithMe(data.player):
             data.player.currHealth -= bullet.dmg
+            data.enemyBullets = []
             if data.player.currHealth <= 0:
                 data.dead = True
-                return
+            return
             data.enemyBullets.remove(bullet)
         if bullet.collisionWithWall(data):
             data.enemyBullets.remove(bullet)

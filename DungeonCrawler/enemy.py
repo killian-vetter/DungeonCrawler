@@ -24,7 +24,7 @@ class Enemy (object):
         self.lifeTime = 0
 
     def shoot(self, data):
-        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle, "red", 5, 1))
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle, "red", 10, 1))
 
     def move(self):
         self.x += self.speed*math.cos(self.angle)

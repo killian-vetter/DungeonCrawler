@@ -5,7 +5,7 @@ def dist(x1,y1,x2,y2):
 
 #this is the shoot function of the basic pistol
 def shoot(x, y, angle):
-    return Bullet(x, y, 5, angle, "blue", 20, 2)
+    return Bullet(x, y, 5, angle, "blue", 30, 2)
 
 class Bullet(object):
     def __init__(self, x, y, r, angle, color, speed, dmg):
