@@ -5,17 +5,16 @@ def dist(x1,y1,x2,y2):
 
 #this is the shoot function of the basic pistol
 def shoot(x, y, angle):
-    return Bullet(x, y, 5, angle, "blue", 30, 2)
+    return Bullet(x, y, 5, angle, "blue", 30)
 
 class Bullet(object):
-    def __init__(self, x, y, r, angle, color, speed, dmg):
+    def __init__(self, x, y, r, angle, color, speed):
         self.x = x
         self.y = y
         self.r = r
         self.angle = angle
         self.color = color
         self.speed = speed
-        self.dmg = dmg
 
     def collisionWithWall(self, data):
         return ((not data.width-self.r>self.x>self.r) or 
@@ -28,9 +27,19 @@ class Bullet(object):
                 return True
         return False
 
-    #I don't know how to do this
     def collisionWithEnemy(self, data):
-         pass
+         for enemy in data.enemies:
+             if enemy.w != -1 and enemy.h != -1:
+                if ((enemy.x<=self.x-self.r<=enemy.x+enemy.w and enemy.y<=self.y-self.r<=enemy.y+enemy.h) 
+                    or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y-self.r<=enemy.y+enemy.h)
+                    or (enemy.x<=self.x-self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)
+                    or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)):
+                    enemy.health -= 1
+                    return True
+             elif dist(enemy.x-enemy.r, enemy.y-enemy.r, self.x , self.y) <= enemy.r + self.r:
+                 enemy.health -= 1
+                 return True
+         return False
 
     def collisionWithMe(self, player):
         return dist(self.x, self.y, player.x, player.y) <= self.r + player.r

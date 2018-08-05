@@ -10,7 +10,6 @@ def init(data):
     data.player = Player("Killian", data.width//2, data.height//2, math.pi)
     data.myBullets = []
     data.enemyBullets = []
-    room1.init(data)
     data.up = False
     data.down = False
     data.left = False
@@ -62,7 +61,7 @@ def timerFired(data):
     for bullet in data.enemyBullets:
         bullet.move()
         if bullet.collisionWithMe(data.player):
-            data.player.currHealth -= bullet.dmg
+            data.player.currHealth -= 1
             data.enemyBullets = []
             if data.player.currHealth <= 0:
                 data.dead = True
@@ -72,6 +71,10 @@ def timerFired(data):
             data.enemyBullets.remove(bullet)
 
     for enemy in data.enemies:
+        if enemy.health <= 0:
+            data.enemies.remove(enemy)
+            data.player.gold += 5
+            if isinstance(enemy, BigEnemy1): data.player.gold += 5
         enemy.onTimerFired(data)
 
 def motion(event, data):
@@ -87,6 +90,7 @@ def redrawAll(canvas, data):
             canvas.create_image(i*heartSize, 0, anchor=NW, image=data.emptyHeart)
         else: 
             canvas.create_image(i*heartSize, 0, anchor=NW, image=data.heart)
+    #put coin counter
     data.player.draw(canvas)
     for bullet in data.myBullets:
         bullet.draw(canvas)

@@ -18,7 +18,7 @@ class Enemy (object):
         self.x = x
         self.y = y
         self.speed = 2
-        self.health = 6
+        self.health = 3
         self.h = 150
         self.w = 75
         self.img = PhotoImage(file="Images/enemy.gif")
@@ -26,7 +26,7 @@ class Enemy (object):
         self.lifeTime = random.randint(0,50)
 
     def shoot(self, data):
-        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle, "red", 10, 1))
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle, "red", 10))
 
     def move(self):
         self.x += self.speed*math.cos(self.angle)
@@ -63,16 +63,16 @@ class Shotgun (Enemy):
 
     def shoot(self, data):
         super().shoot(data)
-        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle+math.pi/18, "red", 10, 1))
-        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle-math.pi/18, "red", 10, 1))
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle+math.pi/18, "red", 10))
+        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle-math.pi/18, "red", 10))
 
 class BigEnemy1 (Enemy):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.helth = 10
+        self.helth = 5
         self.r = 100
-        self.w = 0
-        self.h = 0
+        self.w = -1
+        self.h = -1
         self.speed = 0
         self.angle = (random.random())*math.pi/7
         self.img = PhotoImage(file="Images/bigEnemy1.gif")
@@ -83,4 +83,4 @@ class BigEnemy1 (Enemy):
         self.angle += math.pi/5
         data.enemyBullets.append(Bullet(x+self.r*math.cos(self.angle), 
                                         y+self.r*math.sin(self.angle),
-                                        15, self.angle, "red", 10, 1))
+                                        15, self.angle, "red", 10))

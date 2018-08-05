@@ -15,6 +15,7 @@ import math
 
 def init(data):
     basicActions.init(data)
+    room2.init(data)
 
 def mousePressed(event, data):
     basicActions.mousePressed(event, data)

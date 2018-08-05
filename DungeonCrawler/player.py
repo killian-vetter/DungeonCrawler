@@ -15,6 +15,7 @@ class Player (object):
         self.x = x
         self.y = y
         self.angle = angle
+        self.gold = 0
         self.r = 50
         self.img = PhotoImage(file="Images/player.gif")
 
