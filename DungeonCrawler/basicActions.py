@@ -84,6 +84,15 @@ def motion(event, data):
         
 
 def redrawAll(canvas, data):
+    data.player.draw(canvas)
+    for enemy in data.enemies:
+        enemy.draw(canvas)
+    for bullet in data.enemyBullets:
+        bullet.draw(canvas)
+    for bullet in data.myBullets:
+        bullet.draw(canvas)
+    for b in data.barriers:
+        b.draw(canvas)
     #should make hearts to show life
     iconSize = 50
     for i in range(data.player.health):
@@ -94,13 +103,6 @@ def redrawAll(canvas, data):
     #coin counter
     canvas.create_image(0, iconSize, anchor = NW, image = data.coin)
     canvas.create_text(iconSize*2,iconSize*1.5, font = "Impact 20", text = str(data.player.gold))
-    data.player.draw(canvas)
-    for enemy in data.enemies:
-        enemy.draw(canvas)
-    for bullet in data.enemyBullets:
-        bullet.draw(canvas)
-    for bullet in data.myBullets:
-        bullet.draw(canvas)
     if data.dead:
         canvas.create_rectangle(data.width//2-200, data.height//2-50,
                                data.width//2+200, data.height//2+50, fill = "black")

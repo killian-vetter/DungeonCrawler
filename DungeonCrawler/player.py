@@ -44,7 +44,7 @@ class Player (object):
         if self.x<self.r: self.x=self.r
         elif self.x>data.width-self.r: self.x = data.width-self.r
         if self.y<self.r: self.y=self.r
-        elif self.y>data.height-self.r: self.y = data.width-self.r
+        elif self.y>data.height-self.r: self.y = data.height-self.r
 
     #the polygon makes a triangle point at cursor
     def draw(self, canvas):
