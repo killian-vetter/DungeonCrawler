@@ -16,9 +16,6 @@ def init(data):
     data.right = False
     data.shooting = False
     data.dead = False
-    data.heart = PhotoImage(file="Images/heart.gif")
-    data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
-    data.coin = PhotoImage(file = "Images/coin.gif")
 
 def mousePressed(event, data):
     if data.dead: return
@@ -93,6 +90,7 @@ def redrawAll(canvas, data):
         bullet.draw(canvas)
     for b in data.barriers:
         b.draw(canvas)
+    canvas.create_rectangle(-1,-1, 150, 100, fill = "white")
     #should make hearts to show life
     iconSize = 50
     for i in range(data.player.health):

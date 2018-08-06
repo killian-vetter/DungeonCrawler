@@ -2,6 +2,9 @@
 Cite Images
 Coin: https://www.pixilart.com/art/coin-gif-7736b1d30d303e4
 Heart: https://gifer.com/en/DDt
+Cobblestone floor: http://www.dundjinni.com/forums/forum_posts.asp?TID=13815&KW=tile+set
+Swordman: https://www.reddit.com/r/PixelArt/comments/4706xm/occcnew_to_pixel_art_first_attempt_at_animation/
+Goomba: https://society6.com/product/pixel-goomba-super-mario-bros_print
 
  Basic Animation Framework from course website: http://www.cs.cmu.edu/~112n18/notes/notes-animations-part1.html
  '''
@@ -19,7 +22,14 @@ import math
 # Binded Functions
 ####################################
 
+#modes are "menu", "game", "level editor"
 def init(data):
+    data.test = PhotoImage(file = "Images/test.gif")
+    data.floor = PhotoImage(file = "Images/floor.gif")
+    data.heart = PhotoImage(file="Images/heart.gif")
+    data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
+    data.coin = PhotoImage(file = "Images/coin.gif")
+    data.mode = "menu"
     basicActions.init(data)
     room1.init(data)
 
@@ -40,6 +50,7 @@ def motion(event, data):
         
 
 def redrawAll(canvas, data):
+    canvas.create_image(0, 0, anchor=NW, image=data.floor)
     basicActions.redrawAll(canvas, data)
 
 ####################################
