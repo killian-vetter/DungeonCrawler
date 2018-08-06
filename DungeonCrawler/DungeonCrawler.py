@@ -1,4 +1,7 @@
-# Basic Animation Framework
+#Cite Images
+#
+
+# Basic Animation Framework from course website: http://www.cs.cmu.edu/~112n18/notes/notes-animations-part1.html
 
 from tkinter import *
 from player import *
@@ -15,7 +18,7 @@ import math
 
 def init(data):
     basicActions.init(data)
-    room2.init(data)
+    room1.init(data)
 
 def mousePressed(event, data):
     basicActions.mousePressed(event, data)
