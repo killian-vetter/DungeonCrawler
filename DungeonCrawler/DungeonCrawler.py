@@ -1,7 +1,10 @@
-#Cite Images
-#
+'''
+Cite Images
+Coin: https://www.pixilart.com/art/coin-gif-7736b1d30d303e4
+Heart: https://gifer.com/en/DDt
 
-# Basic Animation Framework from course website: http://www.cs.cmu.edu/~112n18/notes/notes-animations-part1.html
+ Basic Animation Framework from course website: http://www.cs.cmu.edu/~112n18/notes/notes-animations-part1.html
+ '''
 
 from tkinter import *
 from player import *
