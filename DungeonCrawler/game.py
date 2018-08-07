@@ -1,8 +1,7 @@
 from tkinter import *
 from player import *
 from enemy import *
-import room1
-import room2
+from levels import *
 import guns
 import math
 
@@ -31,8 +30,8 @@ def init(data):
     data.right = False
     data.shooting = False
     data.dead = False
-    if data.room == 1: room1.init(data)
-    elif data.room == 2: room2.init(data)
+    if data.room == 1: room1(data)
+    elif data.room == 2: room2(data)
 
 def newGame(data):
     data.room=1

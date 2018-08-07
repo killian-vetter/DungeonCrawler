@@ -62,9 +62,9 @@ class Shotgun (Enemy):
         self.img = PhotoImage(file="Images/shotgun.gif")
 
     def shoot(self, data):
-        super().shoot(data)
-        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle+math.pi/18, "red", 10))
-        data.enemyBullets.append(Bullet(self.x, self.y, 15, self.angle-math.pi/18, "red", 10))
+        data.enemyBullets.append(Bullet(self.x, self.y, 18, self.angle, "green", 10))
+        data.enemyBullets.append(Bullet(self.x, self.y, 18, self.angle+math.pi/18, "green", 10))
+        data.enemyBullets.append(Bullet(self.x, self.y, 18, self.angle-math.pi/18, "green", 10))
 
 class BigEnemy1 (Enemy):
     def __init__(self, x, y):
