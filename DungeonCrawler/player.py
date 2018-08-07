@@ -41,27 +41,26 @@ class Player (object):
             dir[0] -= 10
         if data.right:
             dir[0] += 10
-        for barrier in data.barriers:
-            if dir[0] != 0 and not self.horizontalLegal(dir[0], barrier):
-                dir [0] = 0
-            if dir[1] != 0 and not self.verticalLegal(dir[1], barrier):
-                dir[1] = 0
         self.x += dir[0]
         self.y += dir[1]
+        if not self.legalPos(data):
+            self.x-=dir[0]
+            if not self.legalPos(data):
+                self.x += dir[0]
+                self.y -= dir[1]
+                if not self.legalPos(data):
+                    self.x -= dir[0]
         if self.x<self.r: self.x=self.r
         elif self.x>data.width-self.r: self.x = data.width-self.r
         if self.y<self.r: self.y=self.r
         elif self.y>data.height-self.r: self.y = data.height-self.r
 
-    def horizontalLegal(self, dx, barrier):
-        sign = roundHalfUp(dx/abs(dx))
-        return not ((self.x+self.r*sign>barrier.point1[0] == self.x+self.r*sign+dx>barrier.point1[0])
-                and (self.y+self.r>barrier.point1[1] and self.y-self.r<barrier.point2[1]))
-
-    def verticalLegal(self, dy, barrier):
-        sign = roundHalfUp(dy/abs(dy))
-        return not ((self.y+self.r*sign>barrier.point1[1] == self.y+self.r*sign+dy>barrier.point1[1]) 
-            and (self.x+self.r>barrier.point1[0] and self.y-self.r<barrier.point2[0]))
+    def legalPos(self, data):
+        for barrier in data.barriers:
+            temp = (barrier.point1[1]-self.r<=self.y<=barrier.point2[1]+self.r and 
+                        barrier.point1[0]-self.r<=self.x<=barrier.point2[0]+self.r)
+            if temp: return False
+        return True
 
     def changePosition(self, x, y):
         self.x = x
