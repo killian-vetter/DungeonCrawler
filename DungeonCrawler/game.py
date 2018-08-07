@@ -106,4 +106,4 @@ def redrawAll(canvas, data):
         canvas.create_rectangle(data.width//2-200, data.height//2-50,
                                data.width//2+200, data.height//2+50, fill = "black")
         canvas.create_text(data.width//2, data.height//2, text = "You Died",
-                          font = "Impact 30", fill = "red")
+                          font = "Castellar 30", fill = "red")

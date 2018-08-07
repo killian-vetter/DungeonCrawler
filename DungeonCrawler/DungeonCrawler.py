@@ -15,6 +15,7 @@ from enemy import *
 import game
 import guns
 import math
+import menu
 
 ####################################
 # Binded Functions
@@ -26,12 +27,11 @@ def init(data):
     data.heart = PhotoImage(file="Images/heart.gif")
     data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
     data.coin = PhotoImage(file = "Images/coin.gif")
-    data.mode = "game"
-    game.init(data)
+    data.mode = "menu"
 
 def mousePressed(event, data):
     if data.mode == "game": game.mousePressed(event, data)
-    elif data.mode == "menu": pass
+    elif data.mode == "menu": menu.mousePressed(event, data)
 
 def keyPressed(event, data):
     if data.mode == "game": game.keyPressed(event, data)
@@ -52,8 +52,9 @@ def motion(event, data):
 
 def redrawAll(canvas, data):
     canvas.create_image(0, 0, anchor=NW, image=data.floor)
+    #canvas.create_rectangle(data.width//4, data.height//3, data.width*3//4, data.height//2, fill = 'white')
     if data.mode == "game": game.redrawAll(canvas, data)
-    elif data.mode == "menu": pass
+    elif data.mode == "menu": menu.redrawAll(canvas, data)
 
 ####################################
 # use the run function as-is
