@@ -35,5 +35,9 @@ class Barrier (object):
     def isVertical(self):
         return self.point1[0]==self.point2[0]
 
+    def points(self):
+        return (self.point1, self.point2)
+
     def draw (self, canvas):
-        canvas.create_line(self.point1[0], self.point1[1], self.point2[0], self.point2[1], width = 10)
+        canvas.create_line(self.point1[0], self.point1[1], self.point2[0], self.point2[1], 
+                           width = 10, fill = "white")

@@ -41,7 +41,11 @@ class Player (object):
             dir[0] -= 10
         if data.right:
             dir[0] += 10
-        #self.checkBarrierCollision(dir, data)
+        for barrier in data.barriers:
+            if dir[0] != 0 and not self.horizontalLegal(dir[0], barrier):
+                dir [0] = 0
+            if dir[1] != 0 and not self.verticalLegal(dir[1], barrier):
+                dir[1] = 0
         self.x += dir[0]
         self.y += dir[1]
         if self.x<self.r: self.x=self.r
@@ -49,64 +53,17 @@ class Player (object):
         if self.y<self.r: self.y=self.r
         elif self.y>data.height-self.r: self.y = data.height-self.r
 
-    def checkBarrierCollision(self, dir, data):
-        if dir[0] == 0 and dir[1] == 0: return False
-        if dir[0] == 0: #less strict
-            sign = roundHalfUp(dir[1]/abs(dir[1]))
-            for change in range(0, dir[1], sign):
-                for barrier in data.barriers:
-                    if self.y+change+self.r<=barrier.point1[1] and (self.x+self.r<barrier.point1[0] or self.x-self.r>barrier.point2[0]):
-                        self.y = self.y+change
-                        dir[1] = 0
-                        return True
-                    elif self.y+change-self.r>=barrier.point2[1] and (self.x+self.r<barrier.point1[0] or self.x-self.r>barrier.point2[0]):
-                        self.y = self.y+change
-                        dir[1] = 0
-                        return True
-        elif dir[1] == 0: #more strict
-            sign = roundHalfUp(dir[0]/abs(dir[0]))
-            for change in range(0, dir[0], sign):
-                for barrier in data.barriers:
-                    if self.x+change+self.r<=barrier.point1[0] and (self.y+self.r<barrier.point1[1] or self.y-self.r>barrier.point2[1]):
-                        self.x = self.x+change
-                        dir[0] = 0
-                        return True
-                    elif self.x+change-self.r>=barrier.point2[0] and (self.y+self.r<barrier.point1[1] or self.y-self.r>barrier.point2[1]):
-                        self.x = self.x+change
-                        dir[0] = 0
-                        return True
-        else: #less strict
-            xsign = roundHalfUp(dir[0]/abs(dir[0]))
-            ysign = roundHalfUp(dir[1]/abs(dir[1]) * xsign)
-            boolean = False
-            for change in range(0, dir[0], xsign):
-                for barrier in data.barriers:
-                    if self.x+change+self.r>=barrier.point1[0] and (self.y+self.r<barrier.point1[1] or self.y-self.r>barrier.point2[1]):
-                        self.x = self.x+change
-                        self.y = self.y+change*ysign
-                        dir[1] -= change*ysign
-                        dir[0] = 0
-                        boolean = True
-                    elif self.x+change-self.r<=barrier.point2[0] and (self.y+self.r<barrier.point1[1] or self.y-self.r>barrier.point2[1]):
-                        self.x = self.x+change
-                        self.y = self.y+change*ysign
-                        dir[1] -= change*ysign
-                        dir[0] = 0
-                        boolean = True
-                    if self.y+change*ysign+self.r<=barrier.point1[1] and (self.x+self.r<barrier.point1[0] or self.x-self.r>barrier.point2[0]):
-                        self.y = self.y+change*ysign
-                        dir[1] = 0
-                        dir[0] -= change
-                        boolean = True
-                    elif self.y+change*ysign-self.r>=barrier.point2[1] and (self.x+self.r<barrier.point1[0] or self.x-self.r>barrier.point2[0]):
-                        self.y = self.y+change*ysign
-                        dir[1] = 0
-                        dir[0] -= change
-                        boolean = True
-                if boolean: return True
-        return False
+    def horizontalLegal(self, dx, barrier):
+        sign = roundHalfUp(dx/abs(dx))
+        return not ((self.x+self.r*sign>barrier.point1[0] == self.x+self.r*sign+dx>barrier.point1[0])
+                and (self.y+self.r>barrier.point1[1] and self.y-self.r<barrier.point2[1]))
 
-    def changeLocation(self, x, y):
+    def verticalLegal(self, dy, barrier):
+        sign = roundHalfUp(dy/abs(dy))
+        return not ((self.y+self.r*sign>barrier.point1[1] == self.y+self.r*sign+dy>barrier.point1[1]) 
+            and (self.x+self.r>barrier.point1[0] and self.y-self.r<barrier.point2[0]))
+
+    def changePosition(self, x, y):
         self.x = x
         self.y = y
 
