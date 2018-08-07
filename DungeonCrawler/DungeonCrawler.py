@@ -12,9 +12,7 @@ Goomba: https://society6.com/product/pixel-goomba-super-mario-bros_print
 from tkinter import *
 from player import *
 from enemy import *
-import room1
-import room2
-import basicActions
+import game
 import guns
 import math
 
@@ -24,34 +22,38 @@ import math
 
 #modes are "menu", "game", "level editor"
 def init(data):
-    data.test = PhotoImage(file = "Images/test.gif")
     data.floor = PhotoImage(file = "Images/floor.gif")
     data.heart = PhotoImage(file="Images/heart.gif")
     data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
     data.coin = PhotoImage(file = "Images/coin.gif")
-    data.mode = "menu"
-    basicActions.init(data)
-    room1.init(data)
+    data.mode = "game"
+    game.init(data)
 
 def mousePressed(event, data):
-    basicActions.mousePressed(event, data)
+    if data.mode == "game": game.mousePressed(event, data)
+    elif data.mode == "menu": pass
 
 def keyPressed(event, data):
-    basicActions.keyPressed(event, data)
+    if data.mode == "game": game.keyPressed(event, data)
+    elif data.mode == "menu": pass
 
 def keyReleased(event, data):
-    basicActions.keyReleased(event, data)
+    if data.mode == "game": game.keyReleased(event, data)
+    elif data.mode == "menu": pass
 
 def timerFired(data):
-    basicActions.timerFired(data)
+    if data.mode == "game": game.timerFired(data)
+    elif data.mode == "menu": pass
 
 def motion(event, data):
-    basicActions.motion(event, data)
+    if data.mode == "game": game.motion(event, data)
+    elif data.mode == "menu": pass
         
 
 def redrawAll(canvas, data):
     canvas.create_image(0, 0, anchor=NW, image=data.floor)
-    basicActions.redrawAll(canvas, data)
+    if data.mode == "game": game.redrawAll(canvas, data)
+    elif data.mode == "menu": pass
 
 ####################################
 # use the run function as-is

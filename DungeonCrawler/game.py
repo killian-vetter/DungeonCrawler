@@ -16,6 +16,7 @@ def init(data):
     data.right = False
     data.shooting = False
     data.dead = False
+    room1.init(data)
 
 def mousePressed(event, data):
     if data.dead: return
