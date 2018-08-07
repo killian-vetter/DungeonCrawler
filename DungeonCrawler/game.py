@@ -6,10 +6,12 @@ import guns
 import math
 import menu
 
+#taken from course website
 def readFile(path):
     with open(path, "rt") as f:
         return f.read()
 
+#taken from course website
 def writeFile (path, contents):
     with open (path, "wt") as f:
         f.write(contents)
@@ -92,13 +94,13 @@ def timerFired(data):
     if data.dead: return
     data.player.move(data)
     for bullet in data.myBullets:
-        bullet.move()
+        if not bullet.move(data): data.myBullets.remove(bullet)
         if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
             data.myBullets.remove(bullet)
         elif bullet.collisionWithEnemy(data):
             data.myBullets.remove(bullet)
     for bullet in data.enemyBullets:
-        bullet.move()
+        if not bullet.move(data): data.enemyBullets.remove(bullet)
         if bullet.collisionWithMe(data.player):
             data.player.currHealth -= 1
             data.enemyBullets = []
