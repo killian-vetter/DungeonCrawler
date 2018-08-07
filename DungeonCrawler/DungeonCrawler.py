@@ -27,6 +27,8 @@ def init(data):
     data.heart = PhotoImage(file="Images/heart.gif")
     data.emptyHeart = PhotoImage(file="Images/emptyHeart.gif")
     data.coin = PhotoImage(file = "Images/coin.gif")
+    data.arrows = [PhotoImage(file = "Images/leftArrow.gif"), PhotoImage(file = "Images/upArrow.gif"), 
+                   PhotoImage(file = "Images/rightArrow.gif"), PhotoImage(file = "Images/downArrow.gif")]
     data.mode = "menu"
     menu.init(data)
 
@@ -36,7 +38,7 @@ def mousePressed(event, data):
 
 def keyPressed(event, data):
     if data.mode == "game": game.keyPressed(event, data)
-    elif data.mode == "menu": menu.keyPressed
+    elif data.mode == "menu": menu.keyPressed(event, data)
 
 def keyReleased(event, data):
     if data.mode == "game": game.keyReleased(event, data)

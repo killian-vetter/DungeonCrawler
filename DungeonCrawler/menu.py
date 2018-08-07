@@ -23,7 +23,9 @@ def mousePressed(event, data):
 
 def keyPressed(event, data):
     if data.instructions:
+        print ("maybe")
         if event.keysym == "Escape":
+            print ("works")
             data.instructions = False
 
 def redrawAll(canvas, data):
