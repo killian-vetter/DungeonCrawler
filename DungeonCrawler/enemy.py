@@ -18,9 +18,9 @@ class Enemy (object):
         self.x = x
         self.y = y
         self.speed = 2
-        self.health = 3
-        self.h = 150
-        self.w = 75
+        self.health = 5
+        self.h = 100
+        self.w = 100
         self.img = PhotoImage(file="Images/enemy.gif")
         self.angle = 0
         self.lifeTime = random.randint(0,50)
@@ -53,7 +53,7 @@ class MachineGunEnemy (Enemy):
         self.lifeTime += 1
         self.angle = getAngle(self.x, self.y, data)
         if self.lifeTime % 8 == 0:
-            self.shoot(data)
+            data.enemyBullets.append(Bullet(self.x, self.y, 10, self.angle, "purple", 15))
         self.move()
 
 class Shotgun (Enemy):

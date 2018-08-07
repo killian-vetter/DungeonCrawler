@@ -6,8 +6,23 @@ import room2
 import guns
 import math
 
+def readFile(path):
+    with open(path, "rt") as f:
+        return f.read()
+
+def writeFile (path, contents):
+    with open (path, "wt") as f:
+        f.write(contents)
+
+def save(data):
+    contents = str(data.room), data.player.gun, str(data.player.gold) + " "
+    for index in range(len(guns)):
+        contents +=guns[index]
+        if index != len(guns)-1:
+            contents += ","
+    writeFile("save.txt", contents)
+
 def init(data):
-    data.player = Player("Killian", data.width//2, data.height//2, math.pi)
     data.myBullets = []
     data.enemyBullets = []
     data.up = False
@@ -16,7 +31,28 @@ def init(data):
     data.right = False
     data.shooting = False
     data.dead = False
-    room1.init(data)
+    if data.room == 1: room1.init(data)
+    elif data.room == 2: room2.init(data)
+
+def newGame(data):
+    data.room=1
+    data.player = Player(data.width//2, data.height-100)
+    init(data)
+
+def load(data):
+    try:
+        rawContents = readFile("save.txt")
+        contents = rawContents.split(" ")
+        data.room = int(contents[0])
+        gun = contents[1]
+        gold = int(contents[2])
+        guns = []
+        for g in contents[3].split(","):
+            guns.append(g)
+        data.player = Player(data.width//2, data.height-100, gun, gold, guns)
+        init(data)
+    except: 
+        newGame(data)
 
 def mousePressed(event, data):
     if data.dead: return
@@ -104,6 +140,8 @@ def redrawAll(canvas, data):
     canvas.create_text(iconSize*2,iconSize*1.5, font = "Impact 20", text = str(data.player.gold))
     if data.dead:
         canvas.create_rectangle(data.width//2-200, data.height//2-50,
-                               data.width//2+200, data.height//2+50, fill = "black")
+                               data.width//2+200, data.height//2+100, fill = "black")
         canvas.create_text(data.width//2, data.height//2, text = "You Died",
                           font = "Castellar 30", fill = "red")
+        canvas.create_text(data.width//2, data.height//2+50, text = "Press 'esc' to restart",
+                          font = "Arial 20", fill = "white")

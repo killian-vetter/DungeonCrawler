@@ -4,18 +4,15 @@ import math
 
 #player initially has 3 health 
 class Player (object):
-    def __init__(self, name, x, y, angle):
-        self.name = name
+    def __init__(self, x, y, gun = "pistol", gold = 0, guns = ["pistol"]):
         self.health = 3
         self.currHealth = self.health
-        self.bag = []
-        self.guns = []
-        self.equipped = []
-        self.gun = "pistol"
+        self.guns = guns
+        self.gun = gun
         self.x = x
         self.y = y
-        self.angle = angle
-        self.gold = 0
+        self.angle = 0
+        self.gold = gold
         self.r = 50
         self.img = PhotoImage(file="Images/player.gif")
 
