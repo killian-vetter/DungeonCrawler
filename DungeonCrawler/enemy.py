@@ -58,12 +58,27 @@ class Enemy (object):
         self.angle = 0
         self.lifeTime = random.randint(0,50)
 
+    #returns true if it is in the line of sight of the enemy
+    def lineOfSightWithLine(self, pos, line):
+        test1 = intersect((self.x, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test2 = intersect((self.x+self.w//2, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test3 = intersect((self.x-self.w//2, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test4 = intersect((self.x, self.y+self.h//2), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test5 = intersect((self.x, self.y-self.h//2), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        return not (test1 or test2 or test3 or test4 or test5)
+
+    def lineOfSight(self, pos, barriers):
+        for barrier in barriers:
+            if not self.lineOfSightWithLine(pos,(barrier.point1, barrier.point2)):
+                return False
+        return True
+
     def move(self, data):
         line = [(self.x+self.w//2, self.y+self.h//2), (data.player.x, data.player.y)]
         target = (data.player.x, data.player.y)
+        minN = -1
         for barrier in data.barriers:
-            if intersect(line[0], line[1], barrier.point1, barrier.point2):
-                minN = -1
+            if not self.lineOfSightWithLine((data.player.x, data.player.y),(barrier.point1, barrier.point2)):
                 for node in barrier.nodes:
                     temp = dist (self.x, self.y, node[0], node[1])
                     if temp > minN:
@@ -81,7 +96,7 @@ class Enemy (object):
     def onTimerFired(self, data):
         self.move(data)
         self.lifeTime += 1
-        if self.lifeTime % 20 == 0:
+        if self.lifeTime % 20 == 0 and self.lineOfSight((data.player.x, data.player.y), data.barriers):
             self.shoot(data)
    
     def draw(self, canvas):
@@ -95,7 +110,7 @@ class MachineGunEnemy (Enemy):
     def onTimerFired(self, data):
         self.move(data)
         self.lifeTime += 1
-        if self.lifeTime % 8 == 0:
+        if self.lifeTime % 8 == 0 and self.lineOfSight((data.player.x, data.player.y), data.barriers):
             data.enemyBullets.append(Bullet(self.x+self.w//2, self.y+self.h//2, 10, self.angle, "purple", 15))
 
 class Shotgun (Enemy):
