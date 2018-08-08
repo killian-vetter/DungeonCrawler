@@ -18,14 +18,11 @@ def mousePressed(event, data):
         print ("level editor") #level editor function
     elif (data.width//4<event.x<data.width*3//4 and 
         data.height*5/7<event.y<data.height*8/9):
-        print ("isntr")
         data.instructions = True
 
 def keyPressed(event, data):
     if data.instructions:
-        print ("maybe")
         if event.keysym == "Escape":
-            print ("works")
             data.instructions = False
 
 def redrawAll(canvas, data):

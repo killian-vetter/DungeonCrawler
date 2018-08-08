@@ -17,8 +17,12 @@ def room2(data):
                     MachineGunEnemy(data.width*4//5, data.height*4//5)]
     data.barriers = [Barrier(data.width//3, data.height//3, data.width//3, data.height, data.width, data.height), 
                      Barrier(data.width*2//3, data.height, data.width*2//3, data.height*2//3, data.width, data.height)]
-    data.endBehavior = ["Store", "", "", 1]
+    data.endBehavior = ["", 3, "", 1]
     data.player.changePosition(data.width//2, data.height-100)
 
 def room3(data):
-    pass # do later
+    data.endBehavior = ["", "", "", ""]
+    data.enemies = [Boss(data.width//4, data.height//3)]
+    data.barriers = []
+    data.roomCleared = False
+    data.player.changePosition(data.width//2, data.height-100)

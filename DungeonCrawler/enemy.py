@@ -129,6 +129,32 @@ class Shotgun (Enemy):
 
 class Boss (Enemy):
     def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.speed = 4
+        self.health = 20
+        self.h = 210
+        self.w = 145
+        #the hitbox varible records where the hitbox starts from h and w is the hitbox's size
+        self.hitbox = [(0,75), (130, 90), (135, 0), (0,0)]
+        self.imgs = [PhotoImage(file="Images/swordman1.gif"), PhotoImage(file="Images/swordman2.gif"),
+                     PhotoImage(file="Images/swordman3.gif"), PhotoImage(file="Images/swordman4.gif")]
+        self.angle = 0
+        self.lifeTime = random.randint(4,10)
+
+    def lineOfSight(self):
+        pass
+
+    def move(self):
+        pass
+
+    def shoot(self):
+        pass
+
+    def onTimerFired(self, data):
+        pass
+
+    def draw(self, canvas):
         pass
 
 
