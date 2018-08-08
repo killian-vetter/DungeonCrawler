@@ -24,16 +24,14 @@ def intersect(A,B,C,D):
     y2 = C[1]-D[1]
     if (x1 == 0 and x2 == 0 and A[0] == C[0]):
         return (A[1]<=C[1]<=B[1] or A[1]<=D[1]<=B[1])
-    if x1 == 0 or x2 == 0 :
-        return False
-    m1 = y1/x1
-    m2 = y2/x2
-    b1 = -A[0]*m1+A[1]
-    b2 = -C[0]*m2+C[1]
-    print("ln 33")                                               #never gets here
-    if (almostEquals(m1, m2) and almostEquals(b1, b2) and
-         (A[0]<=C[0]<=B[0] or A[0]<=D[0]<=B[0])):
-        return True
+    if not (x1 == 0 or x2 == 0):
+        m1 = y1/x1
+        m2 = y2/x2
+        b1 = -A[0]*m1+A[1]
+        b2 = -C[0]*m2+C[1]
+        if (almostEquals(m1, m2) and almostEquals(b1, b2) and
+             (A[0]<=C[0]<=B[0] or A[0]<=D[0]<=B[0])):
+            return True
     #end of stuff written by me
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 
@@ -61,22 +59,17 @@ class Enemy (object):
         self.lifeTime = random.randint(0,50)
 
     def move(self, data):
-        line = [(self.x-self.w//2, self.y-self.w//2), (data.player.x, data.player.y)]
-        toNode = False
+        line = [(self.x+self.w//2, self.y+self.h//2), (data.player.x, data.player.y)]
+        target = (data.player.x, data.player.y)
         for barrier in data.barriers:
             if intersect(line[0], line[1], barrier.point1, barrier.point2):
-                print ("dis")
-                toNode = True
-                minNode = ()
                 minN = -1
                 for node in barrier.nodes:
                     temp = dist (self.x, self.y, node[0], node[1])
                     if temp > minN:
                         minN = temp
-                        minNode = node
-                if minN != -1:
-                    self.angle = getAngle(self.x, self.y, minNode)
-        if not toNode: self.angle = getAngle(self.x, self.y, (data.player.x, data.player.y))
+                        target = node
+        self.angle = getAngle(self.x+self.w//2, self.y+self.h//2, target)
         self.x += self.speed*math.cos(self.angle)
         self.y += self.speed*math.sin(self.angle)
 
@@ -86,10 +79,10 @@ class Enemy (object):
     #sets the angle to point at player. Moves toward player.
     #Shoots at player every 2 seconds
     def onTimerFired(self, data):
+        self.move(data)
         self.lifeTime += 1
         if self.lifeTime % 20 == 0:
             self.shoot(data)
-        self.move(data)
    
     def draw(self, canvas):
         canvas.create_image(self.x, self.y, anchor=NW, image=self.img)
@@ -100,11 +93,10 @@ class MachineGunEnemy (Enemy):
         self.img = PhotoImage(file="Images/machineGun.gif")
 
     def onTimerFired(self, data):
+        self.move(data)
         self.lifeTime += 1
-        self.angle = getAngle(self.x, self.y, data)
         if self.lifeTime % 8 == 0:
             data.enemyBullets.append(Bullet(self.x+self.w//2, self.y+self.h//2, 10, self.angle, "purple", 15))
-        self.move()
 
 class Shotgun (Enemy):
     def __init__(self, x, y):
@@ -118,6 +110,12 @@ class Shotgun (Enemy):
                                        18, self.angle+math.pi/18, "green", 10))
         data.enemyBullets.append(Bullet(self.x+self.w//2, self.y+self.h//2, 18,
                                        self.angle-math.pi/18, "green", 10))
+
+
+
+
+
+
 
 class BigEnemy1 (Enemy):
     def __init__(self, x, y):

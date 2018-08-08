@@ -12,8 +12,8 @@ class Barrier (object):
             else:
                 self.point1 = (x1, y1)
                 self.point2 = (x2, y2)
-            a = min(self.point1[1], self.point2[1]) - 100
-            b = max(self.point1[1], self.point2[1]) + 100
+            a = self.point1[1] - 100
+            b = self.point2[1] + 100
             if 0 <= a <= h:
                 self.nodes.append((self.point1[0], a))
             if 0 <= b <= h:
@@ -31,9 +31,6 @@ class Barrier (object):
                 self.nodes.append((a, self.point1[1]))
             if 0 <= b <= w:
                 self.nodes.append((b, self.point1[1]))
-
-    def isVertical(self):
-        return self.point1[0]==self.point2[0]
 
     def points(self):
         return (self.point1, self.point2)
