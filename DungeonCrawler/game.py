@@ -25,6 +25,7 @@ def save(data):
     writeFile("save.txt", contents)
 
 def init(data):
+    data.roomCleared = False
     data.myBullets = []
     data.enemyBullets = []
     data.up = False
@@ -93,13 +94,13 @@ def keyReleased(event, data):
 def timerFired(data):
     if data.dead: return
     data.player.move(data)
-    for bullet in data.myBullets:
+    for bullet in data.myBullets: #does collision with all the bullets shot by me
         if not bullet.move(data): data.myBullets.remove(bullet)
         if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
             data.myBullets.remove(bullet)
         elif bullet.collisionWithEnemy(data):
             data.myBullets.remove(bullet)
-    for bullet in data.enemyBullets:
+    for bullet in data.enemyBullets: #Does collision with all of the enemies' bullets
         if not bullet.move(data): data.enemyBullets.remove(bullet)
         if bullet.collisionWithMe(data.player):
             data.player.currHealth -= 1
@@ -110,13 +111,14 @@ def timerFired(data):
             data.enemyBullets.remove(bullet)
         if bullet.collisionWithWall(data):
             data.enemyBullets.remove(bullet)
-
-    for enemy in data.enemies:
+    for enemy in data.enemies: #kills enemies; gives me gold; and calls timerFired for them
         if enemy.health <= 0:
             data.enemies.remove(enemy)
             data.player.gold += 5
             if isinstance(enemy, BigEnemy1): data.player.gold += 5
         enemy.onTimerFired(data)
+    if len(data.enemies) == 0: 
+        data.roomCleared = True
 
 def motion(event, data):
     if data.dead: return
@@ -151,3 +153,24 @@ def redrawAll(canvas, data):
                           font = "Castellar 30", fill = "red")
         canvas.create_text(data.width//2, data.height//2+50, text = "Press 'esc' to restart",
                           font = "Arial 20", fill = "white")
+    if data.roomCleared:
+        for index in range(len(data.endBehavior)):
+            if isinstance(data.endBehavior[index], str) and data.endBehavior[index] != "":
+                drawArrow(index, data.endBehavior[index], canvas, data)
+            elif isinstance(data.endBehavior[index], int):
+                msg = "Room %d" % data.endBehavior[index]
+                drawArrow(index, msg, canvas, data)
+
+def drawArrow(index, msg, canvas, data):
+    if index == 0: 
+        canvas.create_image(0, data.height//2-51, anchor = NW, image = data.arrows[index])
+        canvas.create_text(data.width//5, data.height//2, text = msg, font = "Castellar 30", fill = "yellow")
+    elif index == 1:
+        canvas.create_image(data.width//2-51, 0, anchor = NW, image = data.arrows[index])
+        canvas.create_text(data.width//2, data.height//4, text = msg, font = "Castellar 30", fill = "yellow")
+    if index == 2:
+        canvas.create_image(data.width-234, data.height//2-51, anchor = NW, image = data.arrows[index])
+        canvas.create_text(data.width*4//5, data.height//2, text = msg, font = "Castellar 30", fill = "yellow")
+    if index == 3:
+        canvas.create_image(data.width//2-51, data.height-234, anchor = NW, image = data.arrows[index])
+        canvas.create_text(data.width//2, data.height*3//4, text = msg, font = "Castellar 30", fill = "yellow")

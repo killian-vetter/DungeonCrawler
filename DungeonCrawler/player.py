@@ -31,6 +31,7 @@ class Player (object):
         else:
             self.angle = math.atan(y/x)
 
+    #edit this for what to do after the room is cleared
     def move(self, data):
         dir = [0,0]
         if data.up:
