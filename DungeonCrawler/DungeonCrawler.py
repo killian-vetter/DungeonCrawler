@@ -40,17 +40,20 @@ def mousePressed(event, data):
 def keyPressed(event, data):
     if data.mode == "game": game.keyPressed(event, data)
     elif data.mode == "menu": menu.keyPressed(event, data)
+    elif data.mode == "store": store.keyPressed(event, data)
 
 def keyReleased(event, data):
     if data.mode == "game": game.keyReleased(event, data)
     elif data.mode == "menu": pass
+    elif data.mode == "store": store.keyReleased(event, data)
 
 def timerFired(data):
     if data.mode == "game": game.timerFired(data)
     elif data.mode == "menu": pass
+    elif data.mode == "store": store.timerFired(data)
 
 def motion(event, data):
-    if data.mode == "game": game.motion(event, data)
+    if data.mode == "game" or data.mode == "store": game.motion(event, data)
     elif data.mode == "menu": pass
         
 
@@ -58,6 +61,7 @@ def redrawAll(canvas, data):
     canvas.create_image(0, 0, anchor=NW, image=data.floor)
     if data.mode == "game": game.redrawAll(canvas, data)
     elif data.mode == "menu": menu.redrawAll(canvas, data)
+    elif data.mode == "store": store.redrawAll(canvas, data)
 
 ####################################
 # use the run function as-is

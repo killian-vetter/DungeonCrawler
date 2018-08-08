@@ -1,6 +1,8 @@
 from guns import *
 from tkinter import *
 import math
+import levels
+import store
 
 #taken from course website: http://www.cs.cmu.edu/~112n18/
 def roundHalfUp(num):
@@ -51,6 +53,47 @@ class Player (object):
                 self.y -= dir[1]
                 if not self.legalPos(data):
                     self.x -= dir[0]
+        if data.roomCleared:
+            if self.x<self.r and data.endBehavior[0] != "":
+                if isinstance(data.endBehavior[0], int):
+                    data.mode = "game"
+                    if data.endBehavior[0] == 2: levels.room2(data)
+                    elif data.endBehavior[0] == 3: levels.room3(data)
+                    else: levels.room1(data)
+                    return
+                elif data.endBehavior[0] == "Store":
+                    data.mode = "store"
+                    store.init(data)
+            elif self.x>data.width-self.r:
+                if isinstance(data.endBehavior[2], int):
+                    data.mode = "game"
+                    if data.endBehavior[2] == 2: levels.room2(data)
+                    elif data.endBehavior[2] == 3: levels.room3(data)
+                    else: levels.room1(data)
+                    return
+                elif data.endBehavior[2] == "Store":
+                    data.mode = "store"
+                    store.init(data)
+            elif self.y<self.r: 
+                if isinstance(data.endBehavior[1], int):
+                    data.mode = "game"
+                    if data.endBehavior[1] == 2: levels.room2(data)
+                    elif data.endBehavior[1] == 3: levels.room3(data)
+                    else: levels.room1(data)
+                    return
+                elif data.endBehavior[1] == "Store":
+                    data.mode = "store"
+                    store.init(data)
+            elif self.y>data.height-self.r: 
+                if isinstance(data.endBehavior[3], int):
+                    data.mode = "game"
+                    if data.endBehavior[3] == 2: levels.room2(data)
+                    elif data.endBehavior[3] == 3: levels.room3(data)
+                    else: levels.room1(data)
+                    return
+                elif data.endBehavior[3] == "Store":
+                    data.mode = "store"
+                    store.init(data)
         if self.x<self.r: self.x=self.r
         elif self.x>data.width-self.r: self.x = data.width-self.r
         if self.y<self.r: self.y=self.r

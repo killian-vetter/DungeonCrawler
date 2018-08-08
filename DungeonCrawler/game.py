@@ -36,6 +36,7 @@ def init(data):
     data.dead = False
     if data.room == 1: room1(data)
     elif data.room == 2: room2(data)
+    elif data.room == 3: room3(data)
 
 def newGame(data):
     data.room=1
@@ -115,7 +116,7 @@ def timerFired(data):
         if enemy.health <= 0:
             data.enemies.remove(enemy)
             data.player.gold += 5
-            if isinstance(enemy, BigEnemy1): data.player.gold += 5
+            if isinstance(enemy, Boss): data.player.gold += 15
         enemy.onTimerFired(data)
     if len(data.enemies) == 0: 
         data.roomCleared = True

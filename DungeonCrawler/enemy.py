@@ -127,11 +127,13 @@ class Shotgun (Enemy):
                                        self.angle-math.pi/18, "green", 10))
 
 
+class Boss (Enemy):
+    def __init__(self, x, y):
+        pass
 
 
-
-
-
+#I may add this enemy back in
+'''
 class BigEnemy1 (Enemy):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -150,3 +152,4 @@ class BigEnemy1 (Enemy):
         data.enemyBullets.append(Bullet(x+self.r*math.cos(self.angle), 
                                         y+self.r*math.sin(self.angle),
                                         15, self.angle, "red", 10))
+'''
