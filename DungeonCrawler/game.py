@@ -40,7 +40,7 @@ def init(data):
     elif data.room == 3: room3(data)
 
 def newGame(data):
-    data.room=3 #change back to one later
+    data.room=1 
     data.player = Player(data.width//2, data.height-100)
     init(data)
 
