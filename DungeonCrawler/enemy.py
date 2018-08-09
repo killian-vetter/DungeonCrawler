@@ -131,7 +131,7 @@ class Boss (Enemy):
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.speed = 4
+        self.speed = 2
         self.health = 20
         self.h = 210
         self.w = 145
@@ -140,23 +140,38 @@ class Boss (Enemy):
         self.imgs = [PhotoImage(file="Images/swordman1.gif"), PhotoImage(file="Images/swordman2.gif"),
                      PhotoImage(file="Images/swordman3.gif"), PhotoImage(file="Images/swordman4.gif")]
         self.angle = 0
-        self.lifeTime = random.randint(4,10)
-
-    def lineOfSight(self):
-        pass
+        self.lifeTime = random.randint(4,19)
+        self.animation = 0
 
     def move(self):
-        pass
+        self.x += self.speed*math.cos(self.angle)
+        self.y += self.speed*math.sin(self.angle)
 
-    def shoot(self):
-        pass
+    def shoot(self, data):
+        x = self.x
+        y = self.y + self.h//3
+        angleIncrement = math.pi/18
+        for i in range(5):
+            data.enemyBullets.append(Bullet(x, y, 15, self.angle+angleIncrement*i, "orange", 10))
+            data.enemyBullets.append(Bullet(x, y, 15, self.angle-angleIncrement*i, "orange", 10))
 
     def onTimerFired(self, data):
-        pass
+        self.angle = getAngle(self.x, self.y, (data.player.x, data.player.y))
+        self.move()
+        if self.lifeTime % 20 == 1:
+            self.animation = 1
+        elif self.lifeTime % 20 == 2:
+            self.animation = 2
+            self.shoot(data)
+        elif 3<=self.lifeTime %  20<=10:
+            self.animation = 3
+        else:
+            self.animation = 0
+        self.lifeTime += 1
 
     def draw(self, canvas):
-        pass
-
+        canvas.create_image(self.x-self.hitbox[self.animation][0], self.y-self.hitbox[self.animation][1], 
+                             anchor=NW, image=self.imgs[self.animation])
 
 #I may add this enemy back in
 '''
