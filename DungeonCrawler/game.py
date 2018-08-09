@@ -25,6 +25,7 @@ def save(data):
     writeFile("save.txt", contents)
 
 def init(data):
+    data.pause = False
     data.won = False
     data.roomCleared = False
     data.myBullets = []
@@ -60,7 +61,7 @@ def load(data):
         newGame(data)
 
 def mousePressed(event, data):
-    if data.dead or data.won: return
+    if data.dead or data.won or data.pause: return
     r = data.player.r
     if data.player.gun == "pistol":
         data.myBullets.append(guns.shoot(data.player.x+r*math.cos(data.player.angle), 
@@ -73,6 +74,14 @@ def keyPressed(event, data):
             data.mode = "menu"
             menu.init(data)
         return
+    if data.pause: 
+        if event.keysym == "Escape": data.pause = False
+        elif event.keysym == "m": 
+            data.mode = "menu"
+            menu.init(data)
+        return
+    if event.keysym == "Escape":
+        data.pause = True
     if event.keysym == "Up" and not data.up:
         data.up = True
     elif event.keysym == "Down" and not data.down:
@@ -83,7 +92,7 @@ def keyPressed(event, data):
         data.left = True
 
 def keyReleased(event, data):
-    if data.dead or data.won: return
+    if data.dead or data.won or data.pause: return
     if event.keysym == "Up" and data.up:
         data.up = False
     elif event.keysym == "Down" and data.down:
@@ -94,7 +103,7 @@ def keyReleased(event, data):
         data.left = False
 
 def timerFired(data):
-    if data.dead or data.won: return
+    if data.dead or data.won or data.pause: return
     data.player.move(data)
     for bullet in data.myBullets: #does collision with all the bullets shot by me
         if not bullet.move(data): data.myBullets.remove(bullet)
@@ -125,7 +134,7 @@ def timerFired(data):
             data.won = True
 
 def motion(event, data):
-    if data.dead or data.won: return
+    if data.dead or data.won or data.pause: return
     data.player.changeAngle(event, data)
         
 
@@ -163,6 +172,13 @@ def redrawAll(canvas, data):
         canvas.create_text(data.width//2, data.height//2, text = "You Won",
                           font = "Castellar 30", fill = "red")
         canvas.create_text(data.width//2, data.height//2+50, text = "Press 'esc' to restart",
+                          font = "Arial 20", fill = "white")
+    if data.pause: 
+        canvas.create_rectangle(data.width//2-200, data.height//2-50,
+                               data.width//2+200, data.height//2+100, fill = "black")
+        canvas.create_text(data.width//2, data.height//2, text = "Paused",
+                          font = "Castellar 30", fill = "red")
+        canvas.create_text(data.width//2, data.height//2+50, text = "Press 'M' to return to the menu",
                           font = "Arial 20", fill = "white")
     if data.roomCleared and not data.won:
         for index in range(len(data.endBehavior)):
