@@ -137,8 +137,15 @@ class Boss (Enemy):
         self.w = 145
         #the hitbox varible records where the hitbox starts from h and w is the hitbox's size
         self.hitbox = [(0,75), (130, 90), (135, 0), (0,0)]
+        #for each hitbox I do (width of image - widths of hitbox - x of hitbox, y of hitbox)
+        self.hitboxR = [(150-self.w-self.hitbox[0][0], self.hitbox[0][1]),
+                        (325-self.w-self.hitbox[1][0], self.hitbox[1][1]),
+                        (290-self.w-self.hitbox[2][0], self.hitbox[2][1]),
+                        (167-self.w-self.hitbox[3][0], self.hitbox[3][1])]
         self.imgs = [PhotoImage(file="Images/swordman1.gif"), PhotoImage(file="Images/swordman2.gif"),
                      PhotoImage(file="Images/swordman3.gif"), PhotoImage(file="Images/swordman4.gif")]
+        self.imgsR = [PhotoImage(file="Images/swordman1R.gif"), PhotoImage(file="Images/swordman2R.gif"),
+                     PhotoImage(file="Images/swordman3R.gif"), PhotoImage(file="Images/swordman4R.gif")]
         self.angle = 0
         self.lifeTime = random.randint(4,19)
         self.animation = 0
@@ -148,7 +155,10 @@ class Boss (Enemy):
         self.y += self.speed*math.sin(self.angle)
 
     def shoot(self, data):
-        x = self.x
+        if -math.pi/2 <= self.angle <= math.pi/2:
+            x = self.x + self.w
+        else:
+            x = self.x
         y = self.y + self.h//3
         angleIncrement = math.pi/18
         for i in range(5):
@@ -158,7 +168,7 @@ class Boss (Enemy):
     def onTimerFired(self, data):
         self.angle = getAngle(self.x, self.y, (data.player.x, data.player.y))
         self.move()
-        if self.lifeTime % 20 == 1:
+        if self.lifeTime % 20==1:
             self.animation = 1
         elif self.lifeTime % 20 == 2:
             self.animation = 2
@@ -170,27 +180,9 @@ class Boss (Enemy):
         self.lifeTime += 1
 
     def draw(self, canvas):
-        canvas.create_image(self.x-self.hitbox[self.animation][0], self.y-self.hitbox[self.animation][1], 
+        if -math.pi/2 <= self.angle <= math.pi/2:
+            canvas.create_image(self.x-self.hitboxR[self.animation][0], self.y-self.hitboxR[self.animation][1], 
+                             anchor=NW, image=self.imgsR[self.animation])
+        else:
+            canvas.create_image(self.x-self.hitbox[self.animation][0], self.y-self.hitbox[self.animation][1], 
                              anchor=NW, image=self.imgs[self.animation])
-
-#I may add this enemy back in
-'''
-class BigEnemy1 (Enemy):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.helth = 5
-        self.r = 100
-        self.w = -1
-        self.h = -1
-        self.speed = 0
-        self.angle = (random.random())*math.pi/7
-        self.img = PhotoImage(file="Images/bigEnemy1.gif")
-
-    def onTimerFired(self, data):
-        x = self.x+self.r
-        y = self.y+self.r
-        self.angle += math.pi/5
-        data.enemyBullets.append(Bullet(x+self.r*math.cos(self.angle), 
-                                        y+self.r*math.sin(self.angle),
-                                        15, self.angle, "red", 10))
-'''

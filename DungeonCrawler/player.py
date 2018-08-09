@@ -12,7 +12,7 @@ def roundHalfUp(num):
 #player initially has 3 health 
 class Player (object):
     def __init__(self, x, y, gun = "pistol", gold = 0, guns = ["pistol"]):
-        self.health = 3
+        self.health = 50
         self.currHealth = self.health
         self.guns = guns
         self.gun = gun

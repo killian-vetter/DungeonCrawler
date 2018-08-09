@@ -35,17 +35,13 @@ class Bullet(object):
         return False
 
     def collisionWithEnemy(self, data):
-         for enemy in data.enemies:
-             if enemy.w != -1 and enemy.h != -1:
-                if ((enemy.x<=self.x-self.r<=enemy.x+enemy.w and enemy.y<=self.y-self.r<=enemy.y+enemy.h) 
-                    or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y-self.r<=enemy.y+enemy.h)
-                    or (enemy.x<=self.x-self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)
-                    or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)):
-                    enemy.health -= 1
-                    return True
-             elif dist(enemy.x+enemy.r, enemy.y+enemy.r, self.x , self.y) <= enemy.r + self.r:
-                 enemy.health -= 1
-                 return True
+         for enemy in data.enemies: 
+            if ((enemy.x<=self.x-self.r<=enemy.x+enemy.w and enemy.y<=self.y-self.r<=enemy.y+enemy.h) 
+                or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y-self.r<=enemy.y+enemy.h)
+                or (enemy.x<=self.x-self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)
+                or (enemy.x<=self.x+self.r<=enemy.x+enemy.w and enemy.y<=self.y+self.r<=enemy.y+enemy.h)):
+                enemy.health -= 1
+                return True
          return False
 
     def collisionWithMe(self, player):
