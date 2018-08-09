@@ -17,6 +17,7 @@ import guns
 import math
 import menu
 import store
+import levelEditor
 
 ####################################
 # Binded Functions
@@ -36,32 +37,39 @@ def init(data):
 def mousePressed(event, data):
     if data.mode == "game": game.mousePressed(event, data)
     elif data.mode == "menu": menu.mousePressed(event, data)
+    elif data.mode == "level editor": levelEditor.mousePressed(event, data)
 
 def keyPressed(event, data):
     if data.mode == "game": game.keyPressed(event, data)
     elif data.mode == "menu": menu.keyPressed(event, data)
     elif data.mode == "store": store.keyPressed(event, data)
+    elif data.mode == "level editor": levelEditor.keyPressed(event, data)
 
 def keyReleased(event, data):
     if data.mode == "game": game.keyReleased(event, data)
-    elif data.mode == "menu": pass
     elif data.mode == "store": store.keyReleased(event, data)
 
 def timerFired(data):
     if data.mode == "game": game.timerFired(data)
-    elif data.mode == "menu": pass
     elif data.mode == "store": store.timerFired(data)
 
 def motion(event, data):
     if data.mode == "game" or data.mode == "store": game.motion(event, data)
-    elif data.mode == "menu": pass
+    elif data.mode == "level editor": levelEditor.motion(event, data)
+
+def mouseRelease(event,data):
+    if data.mode == "level editor": levelEditor.mouseRelease(event, data)
         
+def b1Motion(event, data):
+    if data.mode == "level editor":
+        levelEditor.b1Motion(event,data)
 
 def redrawAll(canvas, data):
     canvas.create_image(0, 0, anchor=NW, image=data.floor)
     if data.mode == "game": game.redrawAll(canvas, data)
     elif data.mode == "menu": menu.redrawAll(canvas, data)
     elif data.mode == "store": store.redrawAll(canvas, data)
+    elif data.mode == "level editor": levelEditor.redrawAll(canvas, data)
 
 ####################################
 # use the run function as-is
@@ -93,8 +101,18 @@ def run(width=300, height=300):
         # pause, then call timerFired again
         canvas.after(data.timerDelay, timerFiredWrapper, canvas, data)
 
+    def b1MotionWrapper (event, canvas, data):
+        b1Motion(event, data)
+        redrawAllWrapper(canvas, data)
+
+    def mouseReleaseWrapper (event, canvas, data):
+        mouseRelease(event, data)
+        redrawAllWrapper(canvas, data)
+
     def motionWrapper(event):
         motion(event, data)
+
+
     # Set up data and call init
     class Struct(object): pass
     data = Struct()
@@ -111,6 +129,10 @@ def run(width=300, height=300):
     root.bind('<Motion>', motionWrapper)
     root.bind("<Button-1>", lambda event:
                             mousePressedWrapper(event, canvas, data))
+    root.bind("<ButtonRelease-1>", lambda event:
+                            mouseReleaseWrapper(event, canvas, data))
+    root.bind("<B1-Motion>", lambda event:
+                            b1MotionWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:
                             keyPressedWrapper(event, canvas, data))
     root.bind("<KeyRelease>", lambda event:

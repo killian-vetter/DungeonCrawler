@@ -58,6 +58,10 @@ class Enemy (object):
         self.angle = 0
         self.lifeTime = random.randint(0,50)
 
+    def changePosition(self, x, y):
+        self.x = x
+        self.y = y
+
     #returns true if it is in the line of sight of the enemy
     def lineOfSightWithLine(self, pos, line):
         test1 = intersect((self.x, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
