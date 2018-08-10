@@ -73,10 +73,10 @@ class Enemy (object):
     #returns true if it is in the line of sight of the enemy
     def lineOfSightWithLine(self, pos, line):
         test1 = intersect((self.x, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
-        test2 = intersect((self.x+self.w//2, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
-        test3 = intersect((self.x-self.w//2, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
-        test4 = intersect((self.x, self.y+self.h//2), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
-        test5 = intersect((self.x, self.y-self.h//2), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test2 = intersect((self.x+self.w//4, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test3 = intersect((self.x-self.w//4, self.y), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test4 = intersect((self.x, self.y+self.h//4), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
+        test5 = intersect((self.x, self.y-self.h//4), (pos[0], pos[1]), (line[0][0], line[0][1]), (line[1][0], line[1][1]))
         return not (test1 or test2 or test3 or test4 or test5)
 
     def lineOfSight(self, pos, barriers):
