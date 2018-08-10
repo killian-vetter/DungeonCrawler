@@ -6,39 +6,6 @@ import guns
 import math
 import menu
 
-#taken from course website
-def readFile(path):
-    with open(path, "rt") as f:
-        return f.read()
-
-#taken from course website
-def writeFile (path, contents):
-    with open (path, "wt") as f:
-        f.write(contents)
-
-def save(data):
-    contents = str(data.room), data.player.gun, str(data.player.gold) + " "
-    for index in range(len(guns)):
-        contents +=guns[index]
-        if index != len(guns)-1:
-            contents += ","
-    writeFile("save.txt", contents)
-
-def load(data):
-    try:
-        rawContents = readFile("save.txt")
-        contents = rawContents.split(" ")
-        data.room = int(contents[0])
-        gun = contents[1]
-        gold = int(contents[2])
-        guns = []
-        for g in contents[3].split(","):
-            guns.append(g)
-        data.player = Player(data.width//2, data.height-100, gun, gold, guns)
-        init(data)
-    except: 
-        newGame(data)
-
 def init(data):
     data.pause = False
     data.won = False

@@ -85,21 +85,6 @@ class Enemy (object):
                 return False
         return True
 
-    def getTarget(self, target, seen = []):
-        line = [(self.x+self.w//2, self.y+self.h//2), (pos[0], pos[1])]
-        minN = data.width*data.height
-        for barrier in data.barriers:
-            if not self.lineOfSightWithLine((data.player.x, data.player.y),(barrier.point1, barrier.point2)):
-                for node in barrier.nodes:
-                    if node in seen: continue
-                    d = dist (self.x, self.y, node[0], node[1])
-                    if d < minN:
-                        minN = d
-                        target = node
-            seen.append(target)
-            return getTarget(target, seen)
-        return target
-
     def move(self, data):
         line = [(self.x+self.w//2, self.y+self.h//2), (data.player.x, data.player.y)]
         target = (data.player.x, data.player.y)
