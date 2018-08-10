@@ -106,33 +106,35 @@ def keyReleased(event, data):
 def timerFired(data):
     if data.dead or data.won or data.pause: return
     data.player.move(data)
-    for bullet in data.myBullets: #does collision with all the bullets shot by me
-        if not bullet.move(data): data.myBullets.remove(bullet)
-        if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
-            data.myBullets.remove(bullet)
-        elif bullet.collisionWithEnemy(data):
-            data.myBullets.remove(bullet)
-    for bullet in data.enemyBullets: #Does collision with all of the enemies' bullets
-        if not bullet.move(data): data.enemyBullets.remove(bullet)
-        if bullet.collisionWithMe(data.player):
-            data.player.currHealth -= 1
-            data.enemyBullets = []
-            if data.player.currHealth <= 0:
-                data.dead = True
-            return
-            data.enemyBullets.remove(bullet)
-        if bullet.collisionWithWall(data):
-            data.enemyBullets.remove(bullet)
-    for enemy in data.enemies: #kills enemies; gives me gold; and calls timerFired for them
-        if enemy.health <= 0:
-            data.enemies.remove(enemy)
-            data.player.gold += 5
-            if isinstance(enemy, Boss): data.player.gold += 15
-        enemy.onTimerFired(data)
-    if len(data.enemies) == 0: 
-        data.roomCleared = True
-        if data.endBehavior == ["","","",""]:
-            data.won = True
+    try :
+        for bullet in data.myBullets: #does collision with all the bullets shot by me
+            if not bullet.move(data): data.myBullets.remove(bullet)
+            if bullet.collisionWithWall(data) or bullet.collisionWithBullet(data):
+                data.myBullets.remove(bullet)
+            elif bullet.collisionWithEnemy(data):
+                data.myBullets.remove(bullet)
+        for bullet in data.enemyBullets: #Does collision with all of the enemies' bullets
+            if not bullet.move(data): data.enemyBullets.remove(bullet)
+            if bullet.collisionWithMe(data.player):
+                data.player.currHealth -= 1
+                data.enemyBullets = []
+                if data.player.currHealth <= 0:
+                    data.dead = True
+                return
+                data.enemyBullets.remove(bullet)
+            if bullet.collisionWithWall(data):
+                data.enemyBullets.remove(bullet)
+        for enemy in data.enemies: #kills enemies; gives me gold; and calls timerFired for them
+            if enemy.health <= 0:
+                data.enemies.remove(enemy)
+                data.player.gold += 5
+                if isinstance(enemy, Boss): data.player.gold += 15
+            enemy.onTimerFired(data)
+        if len(data.enemies) == 0: 
+            data.roomCleared = True
+            if data.endBehavior == ["","","",""]:
+                data.won = True
+    except: pass
 
 def motion(event, data):
     if data.dead or data.won or data.pause: return
