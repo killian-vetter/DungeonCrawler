@@ -34,16 +34,16 @@ def init(data):
     data.mode = "menu"
     menu.init(data)
 
-def mousePressed(event, data):
+def mousePressed(event, data, canvas):
     if data.mode == "game": game.mousePressed(event, data)
     elif data.mode == "menu": menu.mousePressed(event, data)
-    elif data.mode == "level editor": levelEditor.mousePressed(event, data)
+    elif data.mode == "level editor": levelEditor.mousePressed(event, data, canvas)
 
-def keyPressed(event, data):
+def keyPressed(event, data, canvas):
     if data.mode == "game": game.keyPressed(event, data)
     elif data.mode == "menu": menu.keyPressed(event, data)
     elif data.mode == "store": store.keyPressed(event, data)
-    elif data.mode == "level editor": levelEditor.keyPressed(event, data)
+    elif data.mode == "level editor": levelEditor.keyPressed(event, data, canvas)
 
 def keyReleased(event, data):
     if data.mode == "game": game.keyReleased(event, data)
@@ -84,11 +84,11 @@ def run(width=300, height=300):
         canvas.update()
 
     def mousePressedWrapper(event, canvas, data):
-        mousePressed(event, data)
+        mousePressed(event, data, canvas)
         redrawAllWrapper(canvas, data)
 
     def keyPressedWrapper(event, canvas, data):
-        keyPressed(event, data)
+        keyPressed(event, data, canvas)
         redrawAllWrapper(canvas, data)
 
     def keyReleasedWrapper(event, canvas, data):

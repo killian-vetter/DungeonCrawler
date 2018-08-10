@@ -24,6 +24,21 @@ def save(data):
             contents += ","
     writeFile("save.txt", contents)
 
+def load(data):
+    try:
+        rawContents = readFile("save.txt")
+        contents = rawContents.split(" ")
+        data.room = int(contents[0])
+        gun = contents[1]
+        gold = int(contents[2])
+        guns = []
+        for g in contents[3].split(","):
+            guns.append(g)
+        data.player = Player(data.width//2, data.height-100, gun, gold, guns)
+        init(data)
+    except: 
+        newGame(data)
+
 def init(data):
     data.pause = False
     data.won = False
@@ -39,26 +54,12 @@ def init(data):
     if data.room == 1: room1(data)
     elif data.room == 2: room2(data)
     elif data.room == 3: room3(data)
+    elif isinstance(data.room, str): customRoom(data)
 
 def newGame(data):
     data.room=1 
     data.player = Player(data.width//2, data.height-100)
     init(data)
-
-def load(data):
-    try:
-        rawContents = readFile("save.txt")
-        contents = rawContents.split(" ")
-        data.room = int(contents[0])
-        gun = contents[1]
-        gold = int(contents[2])
-        guns = []
-        for g in contents[3].split(","):
-            guns.append(g)
-        data.player = Player(data.width//2, data.height-100, gun, gold, guns)
-        init(data)
-    except: 
-        newGame(data)
 
 def mousePressed(event, data):
     if data.dead or data.won or data.pause: return

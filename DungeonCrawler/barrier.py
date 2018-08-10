@@ -34,27 +34,30 @@ class Barrier (object):
             if 0 <= b <= w:
                 self.nodes.append((b, self.point1[1]))
 
+    def __repr__(self):
+        return "Barrier %d %d %d %d" % (self.point1[0], self.point1[1], self.point2[0], self.point2[1])
+
     def points(self):
         return (self.point1, self.point2)
 
     #shift the bottom or right most point to (x,y) and keeps dimensions
     def shift(self, x, y):
-        self.point1 = (self.point2[0]-self.point1[0]+x, self.point2[1]-self.point1[1]+y)
+        self.point1 = (self.point1[0]-self.point2[0]+x, self.point1[1]-self.point2[1]+y)
         self.point2 = (x,y)
         self.nodes = []
-        if x1 == x2:
+        if self.point1[0] == self.point2[0]:
             a = self.point1[1] - 100
             b = self.point2[1] + 100
-            if 0 <= a <= h:
+            if 0 <= a <= self.CH:
                 self.nodes.append((self.point1[0], a))
-            if 0 <= b <= h:
+            if 0 <= b <= self.CH:
                 self.nodes.append((self.point1[0], b))
-        if y1 == y2:
+        if self.point1[1] == self.point2[1]:
             a = self.point1[0] - 100
             b = self.point2[0] + 100
-            if 0 <= a <= w:
+            if 0 <= a <= self.CW:
                 self.nodes.append((a, self.point1[1]))
-            if 0 <= b <= w:
+            if 0 <= b <= self.CW:
                 self.nodes.append((b, self.point1[1]))
 
     def draw (self, canvas):
