@@ -15,15 +15,14 @@ def init(data):
 def mousePressed(event, data):
     if data.levelSelect:
         count = 0
-        try:
-            for y in range(250, 680, 50):
-                if y<event.y<y+50:
-                    data.mode = "game"
-                    data.room = data.levels[count]
-                    data.player = Player(data.width//2, data.height-100)
-                    game.init(data)
-                count += 1
-        except: return
+        for y in range(250, 650, 50):
+            if count >= len(data.levels): return
+            if y<event.y<y+50:
+                data.mode = "game"
+                data.room = data.levels[count]
+                data.player = Player(data.width//2, data.height-100)
+                game.init(data)
+            count += 1
         return
     if (data.width//4<event.x<data.width*3//4 and
         data.height//3<event.y<data.height*4//9):
